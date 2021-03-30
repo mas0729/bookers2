@@ -1,0 +1,51 @@
+  <p id="notice">
+    <%= flash[:notice] %>
+  </p>
+
+  <div class='container'>
+
+    <!-- errorsに入っているエラー内容を出力する -->
+    <% errmsgs = @user.errors.full_messages %>
+    <% errflg = errmsgs.present? %>
+    <% if errflg %>
+      <div id="error_explanation">
+        <h3><%= errmsgs.count %> errors prohibited this obj from being saved:</h3>
+        <ul>
+          <% errmsgs.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class='row'>
+      <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+        <h2>User info</h2>
+
+        <%= form_with model: @user, url:"/users/#{@user.id}", local:true do |f| %>
+
+          <div class="form-group">
+            <label for="user_name" >Name</label>
+            <%= f.text_field :name ,class: "form-control name"%>
+          </div>
+
+          <div class="form-group">
+            <label for="user_image">Image</label>
+            <%= f.attachment_field :profile_image ,class: "form-control-file user_image"%>
+          </div>
+
+          <div class="form-group">
+            <label for="user_introduction">Introduction</label>
+            <%= f.text_area :introduction  ,class: "form-control introduction"%>
+          </div>
+
+          <div class="form-group">
+            <%= f.submit "Update User" ,class: "btn btn-secondary"%>
+          </div>
+
+          <!--user_idをhiddenで渡す -->
+          <%= f.hidden_field :user, :value => @user.id %>
+
+        <% end %>
+      </div>
+    </div>

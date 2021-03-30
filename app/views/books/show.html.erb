@@ -1,0 +1,42 @@
+  <p id="notice">
+    <%= flash[:notice] %>
+  </p>
+  <div class="container px-5 px-sm-0">
+    <div class="row">
+      <div class="col-md-3">
+        <!--User Info -->
+        <%= render 'shared/user_info', user: @user %>
+
+       <!--New Book -->
+        <%= render 'shared/new_book', book: @book %>
+      </div>
+
+
+      <div class='col-md-8 offset-md-1'>
+        <h2>Book detail</h2>
+        <table class='table'>
+          <tbody>
+            <% if @displaybook.present? %>
+                <tr>
+                  <td>
+                    <!-- userの名前リンク-->
+                    <%= link_to user_path(@user.id), method: :get do %>
+                      <%= attachment_image_tag @user, :profile_image, :fill, 40, 40, fallback: "noimage.jpg" ,size: "40x40" %>
+                      </br>
+                      <%= @user.name %>
+                    <% end %>
+                  </td>
+                  <td><%= link_to @displaybook.title, book_path(@displaybook.id), method: :get %></td>
+                  <td><%= @displaybook.body %></td>
+
+                  <% if @user.id == current_user.id %>
+                    <td><%= link_to "Edit", edit_book_path(@displaybook.id), class: "btn btn-sm btn-success" %></td>
+                    <td><%= link_to "Destroy", book_path(@displaybook.id), method: :delete, class: "btn btn-sm btn-danger" ,"data-confirm" => "本当に消しますか？" %></td>
+                  <% end %>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
